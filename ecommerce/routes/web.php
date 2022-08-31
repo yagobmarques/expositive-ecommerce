@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,16 @@ Route::match(['get', 'post'], '/', [ProdutoController::class, 'index'])
 
 Route::match(['get', 'post'], '/', [ProdutoController::class, 'index'])
 ->name('home');
+
+Route::match(['get', 'post'], '/admin', [AdminController::class, 'index'])
+->name('home');
+
+Route::match(['get', 'post'], '/admin/gerenciar_produtos', [AdminController::class, 'gerenciarProdutos'])
+->name('gerenciar_produtos');
+
+Route::match(['get', 'post'], '/admin/novo_produto', [AdminController::class, 'novoProduto'])
+->name('novo_produto');
+
+Route::match(['get', 'post'], '/admin/salvar_produto', [AdminController::class, 'salvarProduto'])
+->name('salvar_produto');
+
