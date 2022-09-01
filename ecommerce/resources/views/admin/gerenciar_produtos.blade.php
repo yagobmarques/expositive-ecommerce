@@ -45,10 +45,10 @@
                                             {{ $produto->quantidade }}
                                         </td>
                                         <td>
-                                            {{ $produto->categoria }}
+                                            {{ isset($produto->categoria) ? $produto->categoria['titulo'] : "0" }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('gerenciar_produtos', ['id' => $produto->id]) }}"
+                                            <a href="{{ route('novo_produto', $produto->id) }}"
                                                 class="btn btn-primary">Editar</a>
                                             <a href="{{ route('gerenciar_produtos', ['id' => $produto->id]) }}"
                                                 class="btn btn-danger">Deletar</a>

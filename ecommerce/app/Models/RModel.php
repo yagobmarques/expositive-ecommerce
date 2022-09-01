@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class RModel extends Model
 {
     use HasFactory;
+    
+    CONST INACTIVED = 0;
+    CONST ACTIVED = 1;
+    CONST DELETED = 3;
 
     protected $primaryKey = "id";
     protected $fillable = [];

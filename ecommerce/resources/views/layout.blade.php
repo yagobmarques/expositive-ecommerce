@@ -58,7 +58,7 @@
     </nav>
 
     <div class="container">
-        <div class="row">
+        <div class="row p-5">
             @yield('conteudo')
         </div>
     </div>

@@ -1,30 +1,31 @@
 @extends('layout')
 @section('conteudo')
-    <form action="{{ route('salvar_produto') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('salvar_produto', $produto['id']??'') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome">
+            <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome" value="{{$produto['nome'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="descricao">Descrição</label>
-            <input type="text" class="form-control" name="descricao" id="descricao" placeholder="Descrição">
+            <input type="text" class="form-control" name="descricao" id="descricao" placeholder="Descrição" value="{{$produto['descricao'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="preco">Preço</label>
-            <input type="text" class="form-control" name="preco" id="preco" placeholder="Preço">
+            <input type="text" class="form-control" name="preco" id="preco" placeholder="Preço" value="{{$produto['preco'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="quantidade">Quantidade</label>
-            <input type="text" class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade">
+            <input type="text" class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade" value="{{$produto['quantidade'] ?? ''}}">
         </div>
         <div class="form-group">
             <label for="categoria">Categoria</label>
-            <input type="text" class="form-control" name="categoria" id="categoria" placeholder="Categoria">
+            <input type="text" class="form-control" name="categoria" id="categoria" placeholder="Categoria" value="{{$produto->categoria->titulo ?? ''}}">
         </div>
         <div class="form-group">
-            <label for="categoria">Imagem: </label>
-            <input type="file" class="form-control" name="imagem" id="imagem" placeholder="Imagem">
+            <label for="categoria">Imagem:</label>
+            <input type="file" class="form-control" name="imagem" id="imagem" placeholder="Imagem" value="{{$produto['nome'] ?? ''}}">
+            <img src="{{ asset($produto['imagem'][0]['url']) ?? '' }}" alt="" width="100px">
         </div>
         <button type="submit" class="btn btn-primary">Salvar</button>
 @endsection
