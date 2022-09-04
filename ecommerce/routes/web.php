@@ -39,3 +39,11 @@ Route::match(['get', 'post'], '/admin/novo_produto/{idProduto?}', [AdminControll
 Route::match(['get', 'post'], '/admin/salvar_produto/{idProduto?}', [AdminController::class, 'salvarProduto'])
 ->name('salvar_produto');
 
+Route::match(['get', 'post'], '/admin/gerenciar_categorias', [AdminController::class, 'gerenciarCategorias'])
+->name('gerenciar_categorias');
+
+Route::match(['get', 'post'], '/admin/nova_categoria/{idCategoria?}', [AdminController::class, 'novaCategoria'])
+->name('nova_categoria');
+
+Route::match(['get', 'post'], '/admin/salvar_categoria/{idCategoria?}', [AdminController::class, 'salvarCategoria'])
+->name('salvar_categoria');

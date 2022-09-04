@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Produto;
 use App\Models\Imagem;
 use Illuminate\Http\Request;
@@ -19,6 +20,12 @@ class AdminController extends Controller
         return view('admin/gerenciar_produtos', $data);
     }
 
+    public function gerenciarCategorias(Request $request)
+    {
+        $data["lista"] = Categoria::all();
+        return view('admin/gerenciar_categorias', $data);
+    }
+
     public function novoProduto(Request $request, $idProduto = 0)
     {
         $data = [];
@@ -28,6 +35,15 @@ class AdminController extends Controller
             $produto->categoria;
         }
         return view('admin/novo_produto', $data);
+    }
+
+    public function novaCategoria(Request $request, $idCategoria = 0)
+    {
+        $data = [];
+        if($idCategoria != 0){
+            $data['categoria'] = $produto = Categoria::whereId($idCategoria)->first();
+        }
+        return view('admin/nova_categoria', $data);
     }
 
     public function salvarProduto(Request $request, $idProduto = 0)
@@ -117,5 +133,21 @@ class AdminController extends Controller
             echo $e->getMessage();
         }
         return redirect('/admin/gerenciar_produtos');
+    }
+
+    public function salvarCategoria(Request $request, $idCategoria = 0){
+        try {
+            if($idCategoria != 0){
+                $categoria = Categoria::whereId($idCategoria)->first();
+            } else {
+                $categoria = new Categoria();
+            }    
+            $categoria->titulo = $request->input('titulo');
+            $categoria->status = $request->input('ativo') == "I" ? 1 : 0;
+            $categoria->save();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        return redirect('/admin/gerenciar_categorias');
     }
 }
