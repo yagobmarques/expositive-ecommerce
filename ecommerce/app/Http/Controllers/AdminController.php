@@ -137,16 +137,26 @@ class AdminController extends Controller
 
     public function salvarCategoria(Request $request, $idCategoria = 0){
         try {
+            $categoriaExistente = Categoria::where('titulo', ucwords($request->input('titulo')))->first();
+
             if($idCategoria != 0){
                 $categoria = Categoria::whereId($idCategoria)->first();
+
+                if(isset($categoriaExistente) && $categoriaExistente != $categoria){
+                    throw new \Exception ("A categoria de nome " . ucwords($request->input('titulo')) . " já existe!");
+                }
             } else {
+                if($categoriaExistente){
+                    throw new \Exception ("A categoria de nome " . ucwords($request->input('titulo')) . " já existe!");
+                }   
                 $categoria = new Categoria();
-            }    
-            $categoria->titulo = $request->input('titulo');
-            $categoria->status = $request->input('ativo') == "I" ? 1 : 0;
+            } 
+
+            $categoria->titulo = ucwords($request->input('titulo'));
+            $categoria->status = $request->input('ativo') == "on" ? 1 : 0;
             $categoria->save();
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            dd($e->getMessage());
         }
         return redirect('/admin/gerenciar_categorias');
     }

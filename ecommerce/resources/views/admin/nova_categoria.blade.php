@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="ativo" class="switch ">
                 <span class="slider round">Ativo</span><br>
-                <input type="checkbox" data-toggle="toggle" class="form-control" name="ativo" id="ativo" data-on="I" data-off="O" checked>
+                <input type="checkbox" data-toggle="toggle" class="form-control" name="ativo" id="ativo" data-on="I" data-off="O" {{ !isset($categoria) || $categoria['status'] == 1 ? "checked" : ""}}>
             </label>
         </div>
 
