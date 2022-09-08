@@ -34,6 +34,7 @@ class AdminController extends Controller
             $produto->imagem;
             $produto->categoria;
         }
+        $data['categorias'] = Categoria::where("status", 1)->get();
         return view('admin/novo_produto', $data);
     }
 
@@ -58,8 +59,12 @@ class AdminController extends Controller
             $produto->descricao = $request->input('descricao');
             $produto->preco = $request->input('preco');
             $produto->quantidade = $request->input('quantidade');
+            $categoria = Categoria::where("id", $request->input('categoria'))->first();
+            if(!$categoria){
+                throw new \Exception("Categoria não encontada");
+            }
+            $produto->categoria_id = $categoria->id;
             $produto->save();
-            
             try {
     
                 // Undefined | Multiple Files | $_FILES Corruption Attack
@@ -76,7 +81,8 @@ class AdminController extends Controller
                     case UPLOAD_ERR_OK:
                         break;
                     case UPLOAD_ERR_NO_FILE:
-                        throw new \Exception('No file sent.');
+                        return redirect('/admin/gerenciar_produtos');
+                        // throw new \Exception('No file sent.');
                     case UPLOAD_ERR_INI_SIZE:
                     case UPLOAD_ERR_FORM_SIZE:
                         throw new \Exception('Exceeded filesize limit.');
@@ -117,7 +123,8 @@ class AdminController extends Controller
                 )) {
                     throw new \Exception('Failed to move uploaded file.');
                 }
-                if($produto->imagem){
+
+                if(count($produto->imagem)){
                     $imagem = $produto->imagem[0];
                 } else {
                     $imagem = new Imagem();
@@ -127,9 +134,11 @@ class AdminController extends Controller
                 $imagem->save();
                 echo 'File is uploaded successfully.';
             } catch (\Exception $e) {
+                dd($e->getMessage());
                 echo $e->getMessage();
             }
         } catch (\Exception $e) {
+            dd($e->getMessage());
             echo $e->getMessage();
         }
         return redirect('/admin/gerenciar_produtos');
